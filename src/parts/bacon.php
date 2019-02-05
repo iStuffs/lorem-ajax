@@ -3,4 +3,4 @@
 <p>Prosciutto qui short loin sausage bresaola pork belly proident biltong adipisicing aute burgdoggen turkey brisket buffalo. Sunt nulla deserunt sed pork belly. Proident esse adipisicing in pariatur excepteur, fatback buffalo flank. Anim et voluptate, cupidatat alcatra esse laboris sed frankfurter ullamco burgdoggen dolore ea ut t-bone. Duis enim ut veniam strip steak. Fugiat pork loin beef shank turkey picanha enim ball tip ad. Excepteur nostrud hamburger id.
 </p>
 <p>Buffalo sunt biltong et culpa exercitation bresaola pariatur ball tip. Andouille tongue boudin sausage ground round, sint nisi meatloaf. Ut pork chop chuck short ribs. Ribeye id flank boudin dolore pork chop culpa shoulder meatball non tenderloin pork belly. Sirloin ut cupim, consectetur labore ut buffalo.</p>
-<p><a href="https://baconipsum.com/" class="lorem__website" target="_blank">Bacon ipsum</a></p>
+<p><a href="https://baconipsum.com/" class="lorem__website" target="_blank"><span>Bacon ipsum</span></a></p>

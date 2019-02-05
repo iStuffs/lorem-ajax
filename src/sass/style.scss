@@ -1,7 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+// import font
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,700');
+
+// variables
 $color-accent: #9b59b6;
 $color-dark: #333;
 
+// box-sizing
 html {
   box-sizing: border-box;
 }
@@ -10,14 +14,18 @@ html {
   box-sizing: inherit;
 }
 
+
 html, body {
   height: 100%;
 }
+
+
 body {
   background: #eee;
   font-family: 'Roboto', sans-serif;
+  font-weight: 300;
   color: $color-dark;
-  line-height: 1.5em;
+  line-height: 1.7;
 }
 a {
   color: inherit;
@@ -35,7 +43,8 @@ a {
   overflow: hidden;
   &::before {
     content: '';
-    background: rgba( darken($color-accent, 45%), .7);
+    background: rgba( darken($color-accent, 35%), .7);
+    background: linear-gradient(to bottom, rgba( darken($color-accent, 45%), .3) 0%,rgba( darken($color-accent, 35%), .7) 100%);
     position: absolute;
     top: 0;
     left: 0;
@@ -52,10 +61,22 @@ a {
     font-size: 3.2rem;
     line-height: .7em;
     margin: 0;
-    text-shadow: 2px 2px 5px rgba( darken($color-accent, 45%), .7);
+    font-weight: 100;
   }
   &__subtitle {
     opacity: .8;
+    font-weight: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &::before, &::after{
+        content: '';
+        width: 2rem;
+        height: 1px;
+        display: inline-block;
+        background-color: #ffffff;
+        margin: 0 0.5rem;
+    }
   }
 }
 
@@ -86,16 +107,24 @@ a {
     letter-spacing: 2px;
     border: 1px solid currentColor;
     border-radius: 4px;
-    transition: all .3s linear;
+    transition: .3s linear;
+    transition-property: color, background;
     &:hover{
       color: #fff;
       background: $color-accent;
     }
   }
+  &__title {
+      font-weight: 700;
+  }
   &__website {
     position: relative;
-    z-index: 2;
-    padding: .2em
+    display: inline-block;
+    padding: .2em .4em;
+    span{
+      position: relative;
+      z-index: 2;
+    }
   }
   &__website::before {
     content: '';
@@ -105,8 +134,7 @@ a {
     left: 0;
     width: 0%;
     height: 100%;
-    z-index: 1;
-    transition: all .2s ease-in-out;
+    transition: width .2s ease-in-out;
   }
   &__website:hover::before {
     width: 100%;
@@ -116,11 +144,22 @@ a {
   background: $color-accent linear-gradient(to top, darken($color-accent, 10%) 0%, $color-accent 70%);
   color: white;
   text-align: center;
-  //margin: 0 -3em;
   padding: 3.5rem 0 1rem;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   border-radius: .2em .2em 0 0;
+  &__link{
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: .3s ease-in-out;
+      padding-bottom: 0;
+      transition-property: border-bottom-color, padding-bottom;
+      &:hover{
+          border-bottom-color: currentColor;
+          padding-bottom: 3px;
+
+      }
+  }
 }

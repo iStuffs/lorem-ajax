@@ -4,4 +4,4 @@
 
 <p>Aliquam eu diam ex. Nam feugiat hendrerit nulla. Nulla eros nunc, auctor eget justo a, varius cursus lectus. Suspendisse mi nunc, tincidunt eu ante in, viverra molestie quam. Nunc et aliquet odio. Fusce et dictum turpis, ut aliquet neque. Suspendisse id vulputate lorem. Curabitur non turpis eget ligula tincidunt porta. Curabitur feugiat nunc cursus diam placerat, ut aliquet eros pretium. Quisque a scelerisque metus. Aliquam a pretium ex, vel accumsan mauris. Aenean varius, arcu vel tempus lacinia, nibh nunc tincidunt turpis, sed molestie metus mi tempus velit. Cras ac consectetur erat.</p>
 
-<p><a href="https://fr.lipsum.com/" class="lorem__website" class="lorem__website" target="_blank">Lipsum</a></p>
+<p><a href="https://fr.lipsum.com/" class="lorem__website" target="_blank"><span>Lipsum</span></a></p>
