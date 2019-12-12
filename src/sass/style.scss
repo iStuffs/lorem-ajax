@@ -6,12 +6,8 @@ $color-accent: #9b59b6;
 $color-dark: #333;
 
 // box-sizing
-html {
-  box-sizing: border-box;
-}
-
 *, *::before, *::after {
-  box-sizing: inherit;
+ box-sizing: border-box;
 }
 
 

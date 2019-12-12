@@ -1,83 +1,73 @@
 /* gulp plugins variables*/
 
-const gulp         = require('gulp'),
-      sass         = require('gulp-sass'),
+const { src, dest, lastRun, series, parallel, watch } = require('gulp')
+const sass         = require('gulp-sass'),
       autoprefixer = require('gulp-autoprefixer'),
-      rename       = require('gulp-rename'),
       cleanCss     = require('gulp-clean-css'),
       htmlMin      = require('gulp-htmlmin'),
       uglify       = require('gulp-uglify'),
       browserSync  = require('browser-sync'),
-      sourcemaps   = require('gulp-sourcemaps'),
       imagemin     = require('gulp-imagemin'),
       babel        = require('gulp-babel'),
       plumber      = require('gulp-plumber'),
       notify       = require("gulp-notify"),
-      zip          = require('gulp-zip'),
       gulpif       = require('gulp-if'),
-      argv         = require('yargs').argv;
+      argv         = require('yargs').argv
 
+const production = argv.production
 
 /* tasks declaration*/
-function cssTask() {
-  return gulp.src('./src/sass/**/*.{sass,scss}')
+const cssTask = () => {
+  return src('./src/sass/**/*.{sass,scss}', { sourcemaps: !production })
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-  .pipe(gulpif(!argv.production, sourcemaps.init()))
   .pipe(sass().on('error', sass.logError))
   .pipe(autoprefixer({
-      browsers: ['last 6 versions'],
       cascade: false
   }))
   .pipe(cleanCss({
-    compatibility: 'ie8'
+    compatibility: 'ie11'
   }))
-  .pipe(rename(function(path){ path.basename += ".min"; }))
-  .pipe(gulpif(!argv.production, sourcemaps.write('.')))
-  .pipe(gulp.dest('./dist/css'));
-};
+    .pipe(dest('./dist/css', { sourcemaps: '.' }))
+}
 
-function htmlTask() {
-  return gulp.src('src/*.html')
+const htmlTask = () => {
+  return src('src/*.html')
     .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
-    .pipe(gulpif(argv.production, htmlMin({collapseWhitespace: true})))
-    .pipe(gulp.dest('dist'));
-};
+    .pipe(gulpif(production, htmlMin({collapseWhitespace: true})))
+    .pipe(dest('dist'))
+}
 
-function jsTask() {
-  return gulp.src('./src/js/**/*.js')
+const jsTask = () => {
+  return src('./src/js/**/*.js', { sourcemaps: !production })
   .pipe(plumber({errorHandler: notify.onError("Error: <%= error.message %>")}))
   .pipe(babel({ presets: ['@babel/preset-env'] }))
-  .pipe(gulpif(argv.production, uglify()))
-  .pipe(rename(function(path){ path.basename += ".min"; }))
-  .pipe(gulp.dest('./dist/js'));
-};
+  .pipe(gulpif(production, uglify()))
+  .pipe(dest('./dist/js', { sourcemaps: '.' }))
+}
 
-function imgTask() {
-  return gulp.src('src/img/**/*.{gif,jpg,png,svg,jpeg}')
+const imgTask = () => {
+  return src('src/img/**/*.{gif,jpg,png,svg,jpeg}', { since: lastRun(imgTask) })
     .pipe(imagemin())
-    .pipe(gulp.dest('dist/img'));
-};
+    .pipe(dest('dist/img'))
+}
 
 
-function refresh(done) {
+const refresh = (done) => {
   browserSync.init({
     server: {
       baseDir: "./dist/"
     }
-  });
-  done();
-};
+  })
+  done()
+}
 
-gulp.task('build', gulp.series(cssTask, jsTask, htmlTask, imgTask));
+const build = parallel(cssTask, jsTask, htmlTask, imgTask)
 
 /* default task and watch */
-gulp.task('watch', gulp.series( 'build', refresh, function () {
-  gulp.watch('./src/sass/**/*.{sass,scss}', gulp.series(cssTask));
-  gulp.watch('./src/js/**/*.js', gulp.series(jsTask));
-  gulp.watch('./src/*.html', gulp.series(htmlTask));
-  gulp.watch('./dist/*.html').on('change', browserSync.reload);
-  gulp.watch('./dist/css/*.css').on('change', browserSync.reload);
-  gulp.watch('./dist/js/*.js').on('change', browserSync.reload);
-}));
+const watcher = series( build, refresh, () => {
+  watch('./src/sass/**/*.{sass,scss}', series(cssTask)).on('change', browserSync.reload)
+  watch('./src/js/**/*.js', series(jsTask)).on('change', browserSync.reload)
+  watch('./src/*.html', series(htmlTask)).on('change', browserSync.reload)
+})
 
-gulp.task('default', gulp.series('watch'));
+module.exports.default = production ? build : watcher
